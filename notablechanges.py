@@ -7,7 +7,7 @@ import json
 
 DIRECTORY_TO_WATCH = "/Users/marcframe/.notable/"
 
-secrets = json.loads(open("secrets").read())
+secrets = json.loads(open("secrets.json").read())
 aws_access_key_id     = secrets['aws_key']
 aws_secret_access_key = secrets['aws_secret']
 
@@ -79,7 +79,7 @@ last_iteration = []
 for p_local, local_details in p_local_dict.items():
     if p_s3_dict.get(p_local) == None:
         #upload to s3
-        print(p_s3, "uploading to s3")
+        print(p_local, "uploading to s3")
 
         client.upload_file(local_details['absdir'], bucket, p_local)
     last_iteration.append(p_local)
