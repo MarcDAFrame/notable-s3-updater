@@ -91,4 +91,3 @@ for p_local, local_details in p_local_dict.items():
     last_iteration.append(p_local)
 
 open(last_iteration_path, "w+").write("\n".join(last_iteration))
-        
