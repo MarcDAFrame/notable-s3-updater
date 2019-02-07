@@ -5,9 +5,13 @@ import datetime
 import pytz
 import json 
 
+
+
+bucket = "marcsnotable"
 DIRECTORY_TO_WATCH = "/Users/marcframe/.notable/"
 
-secrets = json.loads(open("secrets").read())
+SECRETS_DIR = os.path.join(DIRECTORY_TO_WATCH, "secrets.json")
+secrets = json.loads(open(SECRETS_DIR).read())
 aws_access_key_id     = secrets['aws_key']
 aws_secret_access_key = secrets['aws_secret']
 
@@ -21,11 +25,13 @@ client = boto3.client(
     # aws_session_token=SESSION_TOKEN,
 )
 
-bucket = "marcsnotable"
-DIRECTORY_TO_WATCH = "/Users/marcframe/.notable/"
-last_iteration_path = os.path.join(DIRECTORY_TO_WATCH, ".last_iteration")
-exclude = set(["notablechanges.py", ".last_iteration", last_iteration_path])
 
+
+last_iteration_path = os.path.join(DIRECTORY_TO_WATCH, ".last_iteration")
+
+exclude = set(["notablechanges.py", last_iteration_path])
+
+print("LAST", last_iteration_path, DIRECTORY_TO_WATCH)
 try:
     last_iteration = set(open(last_iteration_path, "r").read().split('\n'))
 except:
@@ -79,10 +85,10 @@ last_iteration = []
 for p_local, local_details in p_local_dict.items():
     if p_s3_dict.get(p_local) == None:
         #upload to s3
-        print(p_s3, "uploading to s3")
+        print(p_local, "uploading to s3")
 
         client.upload_file(local_details['absdir'], bucket, p_local)
     last_iteration.append(p_local)
 
-# open(last_iteration_path, "w+").write("\n".join(last_iteration))
+open(last_iteration_path, "w+").write("\n".join(last_iteration))
         
