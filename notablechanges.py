@@ -21,10 +21,10 @@ client = boto3.client(
     # aws_session_token=SESSION_TOKEN,
 )
 
-bucket = "marcsnotable"
-DIRECTORY_TO_WATCH = "/Users/marcframe/.notable/"
+bucket = "<BUCKETNAME>"
+DIRECTORY_TO_WATCH = "/Users/<NAME>/.notable/"
 last_iteration_path = os.path.join(DIRECTORY_TO_WATCH, ".last_iteration")
-exclude = set(["notablechanges.py", ".last_iteration", last_iteration_path])
+exclude = set(["notablechanges.py", last_iteration_path])
 
 try:
     last_iteration = set(open(last_iteration_path, "r").read().split('\n'))
